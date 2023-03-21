@@ -1,0 +1,104 @@
+#include <iostream>
+#include <string.h>
+using namespace std;
+
+typedef char datos[50];
+
+struct cliente{
+	int cliente_codigo;
+	char CI[10];
+	datos edad;
+	datos nombre;
+};
+
+void crearcliente(cliente *registro,int *n){
+	int codigo;
+	char CI[10];
+	datos edad;
+	datos nombre;
+	
+	
+	cout<<"Ingrese el codigo del cliente: ";
+	cin>>codigo;
+	
+	cin.ignore();
+	cout<<"Ingrese el CI del cliente: ";
+	gets(CI);
+	
+	cout<<"Ingrese el edad del cliente: ";
+	gets(edad);
+	
+	cout<<"Ingrese el nombre del cliente: ";
+	gets(nombre);
+	
+	registro[*n].cliente_codigo = codigo;
+	strcpy(registro[*n].CI,CI);
+	strcpy(registro[*n].edad,edad);
+	strcpy(registro[*n].nombre,nombre);
+	
+	*n = *n+1;
+}
+
+void imprimircliente(cliente registro[],int n){
+	cliente l = registro[n];
+	
+	cout<<"codigo del cliente: ";
+	cout<<l.cliente_codigo<<endl;
+	
+	cout<<"CI del cliente: ";
+	cout<<l.CI<<endl;
+	
+	cout<<"edad del cliente: ";
+	cout<<l.edad<<endl;
+	
+	cout<<"Nombre del cliente: ";
+	cout<<l.nombre<<endl;
+	
+}
+
+void imprimirclientes(cliente registro[],int n){
+	system("cls");
+	int i;
+	for(i=0;i<n;i++){
+		imprimircliente(registro,i);
+	}
+}
+
+
+bool removercliente(cliente registro[],int *n){
+	int cod,i,j=0;
+	bool existencia = false;
+	cliente registro2[50];
+	cout<<"Ingrese el codigo del cliente a eliminar: ";
+	cin>>cod;
+	
+	for(i=0;i<*n;i++){
+		if(registro[i].cliente_codigo == cod){
+			existencia = true;
+			continue;
+		}
+		registro2[j] = registro[i];
+		j++;
+	}
+	
+	if (existencia == false){
+		return false;
+	}
+	
+	*registro = *registro2;
+	*n = *n-1;
+	return true;
+}
+
+int main(){
+	cliente registro[50];
+	int n = 0;
+	
+	crearcliente(registro,&n);
+	crearcliente(registro,&n);
+	
+	imprimirclientes(registro,n);
+	
+	removercliente(registro,&n);
+	imprimirclientes(registro,n);
+}
